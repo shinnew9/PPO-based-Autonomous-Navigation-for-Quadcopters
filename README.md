@@ -1,5 +1,5 @@
 # PPO-based Autonomous Navigation for Quadcopters
-git cloned from this  [[repository]([https://img.shields.io/badge/license-AGPL%203.0-%23F65314?style=flat-square](https://github.com/bilalkabas/PPO-based-Autonomous-Navigation-for-Quadcopters))]
+git cloned from this [repository]([https://img.shields.io/badge/license-AGPL%203.0-%23F65314?style=flat-square](https://github.com/bilalkabas/PPO-based-Autonomous-Navigation-for-Quadcopters))
 
 
 [![license](https://img.shields.io/badge/license-AGPL%203.0-%23F65314?style=flat-square)](LICENSE)
