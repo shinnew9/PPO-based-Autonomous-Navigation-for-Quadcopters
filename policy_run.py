@@ -14,31 +14,31 @@ from stable_baselines3.common.vec_env import DummyVecEnv, VecEnvWrapper
 
 
 
-# 0) Reset에
+# 0) Reset
 class ResetCompat(gym.Wrapper):
     def reset(self, *args, **kwargs):
         # AirSimDroneEnv는 인자 없는 reset만 지원하니까 싹 무시
-        obs = self.env.reset()   # 너희 AirSim env는 obs만 리턴함
-        return obs, {}           # SB3가 기대하는 (obs, info) 형태로 맞춰줌
+        obs = self.env.reset()   # Our AirSim env only returns obs
+        return obs, {}           # Match (obs, info) of what SB3 expects
 
 
 class StepCompat(gym.Wrapper):
     def step(self, action):
         out = self.env.step(action)
-        # 엣날식이면 길이가 4일 거다
+        # If it's the old version, the length would be 4
         if len(out) == 4:
             obs, reward, done, info = out
             terminated = bool(done)
             truncated = False
             return obs, reward, terminated, truncated, info
-        # 이미 새식이면 그대로
+        # If it's new formula, it would be new
         return out
 
 # 1) changes the channel automatically (N, H, W, C) -> (N, C, H, W) 하고, 공간도 바꿔주는 Wrapper
 class ChannelLastToFirst(VecEnvWrapper):
     def __init__(self, venv):
         super().__init__(venv)
-        # 원래 공간: (50, 50, 3)
+        # Original Space: (50, 50, 3)
         old_space = venv.observation_space
         assert isinstance(old_space, spaces.Box)
         h, w, c = old_space.shape
@@ -69,13 +69,13 @@ with open('scripts/config.yml', 'r') as f:
 train_cfg = cfg.get("TrainEnv", {})
 
 
-# 3) env 만드는 함수 (DummyVecEnv가 요구하는 형태)
+# 3) Function that makes env (Format that DummyVecEnv is expecting)
 def make_env():
-    # 여기 id는 레포가 등록해둔 거 그대로 씀
+    # Copy all the necessary id from the originial repo
     env = gym.make(
         "scripts:test-env-v0", 
         ip_address="127.0.0.1",  # Make sure TrainEnv.exe is always turned on when runnign this py file
-        image_shape=(50, 50, 3),   # config.yml이랑 맞춰둠
+        image_shape=(50, 50, 3),   # Match with config.yml
         env_config=train_cfg
     )
     env = ResetCompat(env)
@@ -97,13 +97,13 @@ model_path = os.path.join("saved_policy", "ppo_navigation_policy")
 if os.path.exists(model_path + ".zip"):
     model_path = model_path + ".zip"
 elif not os.path.exists(model_path):
-    raise FileNotFoundError(f"모델 파일을 찾을 수 없어요: {model_path}(.zip)")
+    raise FileNotFoundError(f"Cannot find the model file : {model_path}(.zip)")
 
 
 # 5) Covering SB3 model
 custom_objects = {
-    "lr_schedule": lambda _: 3e-4,  # 학습률 스케줄을 그냥 상수로   
-    "clip_range": 0.2,              # 클리핑도 상수로
+    "lr_schedule": lambda _: 3e-4,  # set this as constant   
+    "clip_range": 0.2,              # Also set Cliping as a constant 
 }
 model = PPO.load(model_path, env=None, custom_objects=custom_objects)
 
