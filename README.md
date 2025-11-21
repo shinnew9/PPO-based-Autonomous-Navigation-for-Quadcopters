@@ -1,4 +1,7 @@
 # PPO-based Autonomous Navigation for Quadcopters
+I git cloned from this [repository](https://github.com/bilalkabas/PPO-based-Autonomous-Navigation-for-Quadcopters) and git remote removed. I will keep updating in here 
+
+
 [![license](https://img.shields.io/badge/license-AGPL%203.0-%23F65314?style=flat-square)](LICENSE)
 
 This repository contains an implementation of Proximal Policy Optimization (PPO) for autonomous navigation in a corridor environment with a quadcopter. There are blocks having circular opening for the drone to go through for each 4 meters. The expectation is that the agent navigates through these openings without colliding with blocks. **This project currently runs only on Windows since Unreal environments were packaged for Windows.**
