@@ -1,5 +1,5 @@
 # PPO-based Autonomous Navigation for Quadcopters
-I git cloned from this [repository](https://github.com/bilalkabas/PPO-based-Autonomous-Navigation-for-Quadcopters) and git remote removed. I will keep updating in policy_run.py
+I git cloned from this [repository](https://github.com/bilalkabas/PPO-based-Autonomous-Navigation-for-Quadcopters) and detached the git remote. I will keep updating in scripts/airsim_env.py and policy_run.py 
 
 
 [![license](https://img.shields.io/badge/license-AGPL%203.0-%23F65314?style=flat-square)](LICENSE)
